@@ -33,6 +33,8 @@ Custom runspace C# code inside Uninstall method:
               static void Main(string[] args)
               {
                   Console.WriteLine("This is the main method which is a decoy");
+                  ***<comment>Since the content of the Main method is not part of the application whitelisting bypass, we could use it for other purposes, like bypassing antivirus.<comment>***
+                  
               }
           }
       
